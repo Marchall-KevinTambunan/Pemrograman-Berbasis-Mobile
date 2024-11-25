@@ -36,7 +36,7 @@ import com.example.daftarmatakuliah.ui.viewmodel.MataKuliahViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MataKuliahListScreen(
-    onMataKuliahClick: (MataKuliah) -> Unit,
+    onMataKuliahClick: (MataKuliah) -> Unit,  // Mengubah callback untuk menerima indeks
     mataKuliahViewModel: MataKuliahViewModel = viewModel() // Menggunakan viewModel() untuk mendapatkan data dari ViewModel
 ) {
     // Mendapatkan daftar mata kuliah dari ViewModel
@@ -64,9 +64,9 @@ fun MataKuliahListScreen(
             // Memanggil fungsi MataKuliahList untuk menampilkan daftar mata kuliah
             MataKuliahList(
                 mataKuliahList = mataKuliahList,
-                onItemClick = { mataKuliah ->
-                    // Callback ketika sebuah mata kuliah dipilih
-                    onMataKuliahClick(mataKuliah)
+                onItemClick = { matakuliah ->
+                    // Callback ketika sebuah mata kuliah dipilih, mengirimkan indeks
+                    onMataKuliahClick(matakuliah)
                 }
             )
         }
@@ -75,18 +75,15 @@ fun MataKuliahListScreen(
 
 @Composable
 fun MataKuliahList(mataKuliahList: List<MataKuliah>, onItemClick: (MataKuliah) -> Unit) {
-    // LazyColumn digunakan untuk menampilkan daftar dengan pengoptimalan memori (hanya item yang terlihat yang dimuat)
     LazyColumn(
-        contentPadding = PaddingValues(16.dp), // Memberikan padding di sekitar daftar
-        verticalArrangement = Arrangement.spacedBy(12.dp), // Spasi antar item
-        modifier = Modifier.fillMaxSize() // Menggunakan ukuran penuh untuk LazyColumn
+        contentPadding = PaddingValues(16.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+        modifier = Modifier.fillMaxSize()
     ) {
-        // Mengiterasi semua mata kuliah dan menampilkan item untuk setiap mata kuliah
         items(mataKuliahList) { mataKuliah ->
-            // Memanggil MataKuliahItem untuk setiap mata kuliah
             MataKuliahItem(
                 mataKuliah = mataKuliah,
-                onClick = { onItemClick(mataKuliah) } // Callback saat item diklik
+                onClick = { onItemClick(mataKuliah) } // Kirim MataKuliah
             )
         }
     }
